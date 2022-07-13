@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.alkemyChallenge.disneyAPI.Entity;
+package com.alkemy.disney.Entity;
 
 
 import java.util.*;
@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Data
+public
 class MovieEntity {
     
     @Id
@@ -34,7 +35,7 @@ class MovieEntity {
     @Column(name = "genre_Id",insertable = false, updatable = false)
     private Long GenreId;
     //todo: manytomany
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private Set<CharacterEntity> characters = new HashSet<>();
     
     

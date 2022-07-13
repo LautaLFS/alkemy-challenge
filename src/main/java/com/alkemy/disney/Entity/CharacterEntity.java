@@ -2,16 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.alkemyChallenge.disneyAPI.Entity;
+package com.alkemy.disney.Entity;
 
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Data
-@Entity        
-class CharacterEntity {
+@Entity
+@SQLDelete(sql = "UPDATE character_entity SET deleted=true WHERE id = ?")
+@Where(clause = "deleted = false")
+public class CharacterEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -21,7 +25,8 @@ class CharacterEntity {
     private int age;
     private Long weight;
     private String history;
+    private Boolean deleted = false;
     
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "characters" )
+    @ManyToMany( mappedBy = "characters" )
     private Set<MovieEntity> movies = new HashSet<>();
 }
