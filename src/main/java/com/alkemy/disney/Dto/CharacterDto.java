@@ -11,4 +11,5 @@ public class CharacterDto {
     private long weight;
     private int age;
 
+
 }

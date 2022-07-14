@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+
 public class CharacterServiceImp implements CharacterService {
     @Autowired
     private CharacterMapper CharacterMapper;
@@ -22,14 +23,13 @@ public class CharacterServiceImp implements CharacterService {
     public CharacterDto save(CharacterDto dto) {
         CharacterEntity characterEntity = CharacterMapper.characterDto2Entity(dto);
         CharacterEntity entitySaved = this.CharacterRepository.save(characterEntity);
-        CharacterDto result = this.CharacterMapper.characterEntity2Dto(entitySaved);
-        return result;
+        return this.CharacterMapper.characterEntity2Dto(entitySaved);
     }
 
     @Override
     public CharacterDto update(CharacterDto characterDto, Long id) {
 
-        CharacterEntity entity = CharacterRepository.getById(id);
+        CharacterEntity entity = CharacterRepository.getReferenceById(id);
 
         entity.setWeight(characterDto.getWeight());
         entity.setName(characterDto.getName());
@@ -37,14 +37,12 @@ public class CharacterServiceImp implements CharacterService {
         entity.setImage(characterDto.getImage());
         entity.setAge(characterDto.getAge());
 
-        CharacterDto result = CharacterMapper.characterEntity2Dto(CharacterRepository.save(entity));
-
-        return result;
+        return CharacterMapper.characterEntity2Dto(CharacterRepository.save(entity));
     }
 
     @Override
     public void delete(Long id) {
-        CharacterEntity entity = CharacterRepository.getById(id);
+        CharacterEntity entity = CharacterRepository.getReferenceById(id);
         CharacterRepository.delete(entity);
 
     }
@@ -52,15 +50,13 @@ public class CharacterServiceImp implements CharacterService {
     @Override
     public List<CharacterDto> findAll() {
         List<CharacterEntity> finds = CharacterRepository.findAll();
-        List<CharacterDto> dtos = CharacterMapper.characterEntity2DtoList(finds);
-        return dtos;
+        return CharacterMapper.characterEntity2DtoList(finds);
     }
 
     @Override
     public CharacterDto findById(Long id) {
-        CharacterEntity finded = CharacterRepository.getById(id);
-        CharacterDto result = CharacterMapper.characterEntity2Dto(finded);
-        return result;
+        CharacterEntity finded = CharacterRepository.getReferenceById(id);
+        return CharacterMapper.characterEntity2Dto(finded);
     }
 
 }
