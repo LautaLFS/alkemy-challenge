@@ -7,6 +7,8 @@ package com.alkemy.disney.Entity;
 
 import java.util.*;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -35,7 +37,8 @@ class MovieEntity {
     @Column(name = "genre_Id",insertable = false, updatable = false)
     private Long GenreId;
     //todo: manytomany
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<CharacterEntity> characters = new HashSet<>();
     
     

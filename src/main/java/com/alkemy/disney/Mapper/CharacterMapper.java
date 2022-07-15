@@ -2,13 +2,20 @@ package com.alkemy.disney.Mapper;
 
 import com.alkemy.disney.Dto.CharacterDto;
 import com.alkemy.disney.Entity.CharacterEntity;
+import com.fasterxml.jackson.annotation.JsonKey;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class CharacterMapper {
+    @Autowired
+    private MovieMapper MovieMapper;
     public CharacterEntity characterDto2Entity(CharacterDto dto) {
         CharacterEntity entity = new CharacterEntity();
         entity.setImage(dto.getImage());
@@ -21,7 +28,7 @@ public class CharacterMapper {
         return entity;
     }
 
-    public CharacterDto characterEntity2Dto(CharacterEntity entitySaved) {
+    public CharacterDto characterEntity2Dto(CharacterEntity entitySaved, boolean loadMovies) {
 
         CharacterDto dto = new CharacterDto();
         dto.setId(entitySaved.getId());
@@ -30,17 +37,26 @@ public class CharacterMapper {
         dto.setAge(entitySaved.getAge());
         dto.setHistory(entitySaved.getHistory());
         dto.setWeight(entitySaved.getWeight());
-
+        if (loadMovies) {
+            dto.setMovies(MovieMapper.movieEntiy2DTOSet(entitySaved.getMovies(), false));
+        }
 
         return dto;
     }
 
-    public List<CharacterDto> characterEntity2DtoList(List<CharacterEntity> finds) {
+    public List<CharacterDto> characterEntity2DtoList(List<CharacterEntity> entities, boolean loadMovies) {
         List<CharacterDto> dtos = new ArrayList<>();
 
-        for (CharacterEntity find : finds){
-            dtos.add(characterEntity2Dto(find));
+        for (CharacterEntity entity : entities){
+            dtos.add(characterEntity2Dto(entity, loadMovies));
         }
         return dtos;
+    }
+    public Set<CharacterDto> addCharactersDTO(Set<CharacterEntity> characters, boolean loadMovies) {
+        Set<CharacterDto> added = new HashSet<>();
+        for (CharacterEntity character : characters) {
+            added.add(characterEntity2Dto(character, loadMovies));
+        }
+        return added;
     }
 }

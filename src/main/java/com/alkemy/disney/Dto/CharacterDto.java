@@ -2,6 +2,9 @@ package com.alkemy.disney.Dto;
 
 import lombok.Data;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 public class CharacterDto {
     private Long id;
@@ -10,6 +13,7 @@ public class CharacterDto {
     private String image;
     private long weight;
     private int age;
+    private Set<MovieDto> movies = new HashSet<>();
 
 
 }

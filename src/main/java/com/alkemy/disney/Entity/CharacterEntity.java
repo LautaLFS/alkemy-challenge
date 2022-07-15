@@ -7,6 +7,8 @@ package com.alkemy.disney.Entity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -27,6 +29,7 @@ public class CharacterEntity {
     private String history;
     private Boolean deleted = false;
     
-    @ManyToMany( mappedBy = "characters" )
+    @ManyToMany(mappedBy = "characters" )
+    @JsonIgnore
     private Set<MovieEntity> movies = new HashSet<>();
 }

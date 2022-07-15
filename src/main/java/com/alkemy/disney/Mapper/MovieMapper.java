@@ -14,6 +14,8 @@ import java.util.Set;
 public class MovieMapper {
     @Autowired
     private CharacterMapper CharacterMapper;
+    @Autowired
+    private MovieMapper MovieMapper;
 
     public MovieEntity movieDTO2Entity(MovieDto movieDto) {
         MovieEntity movieEntity = new MovieEntity();
@@ -35,7 +37,7 @@ public class MovieMapper {
         return added;
     }
 
-    public MovieDto movieEntity2DTO(MovieEntity save) {
+    public MovieDto movieEntity2DTO(MovieEntity save, boolean loadCharacters) {
         MovieDto movieDto = new MovieDto();
         movieDto.setId(save.getId());
         movieDto.setTitle(save.getTitle());
@@ -43,18 +45,27 @@ public class MovieMapper {
         movieDto.setDate(save.getDate());
         movieDto.setGenre(save.getGenreId());
         movieDto.setRate(save.getRate());
-        Set<CharacterDto> chracters = addCharactersDTO(save.getCharacters());
-        movieDto.setCharacters(chracters);
+        if(loadCharacters) {
+            Set<CharacterDto> characters = CharacterMapper.addCharactersDTO(save.getCharacters(), false);
+            movieDto.setCharacters(characters);
+        }
         return movieDto;
     }
 
-    private Set<CharacterDto> addCharactersDTO(Set<CharacterEntity> characters) {
+    /*private Set<CharacterDto> addCharactersDTO(Set<CharacterEntity> characters, boolean loadMovies) {
         Set<CharacterDto> added = new HashSet<>();
         for (CharacterEntity character : characters) {
-            added.add(CharacterMapper.characterEntity2Dto(character));
+            added.add(CharacterMapper.characterEntity2Dto(character, loadMovies));
         }
         return added;
-    }
+    }*/
 
+    public Set<MovieDto> movieEntiy2DTOSet(Set<MovieEntity> movies, boolean loadCharacters) {
+        Set<MovieDto> dtos = new HashSet<>();
+        for (MovieEntity movie: movies){
+            dtos.add(MovieMapper.movieEntity2DTO(movie,loadCharacters));
+        }
+        return dtos;
+    }
 }
 

@@ -23,7 +23,7 @@ public class CharacterServiceImp implements CharacterService {
     public CharacterDto save(CharacterDto dto) {
         CharacterEntity characterEntity = CharacterMapper.characterDto2Entity(dto);
         CharacterEntity entitySaved = this.CharacterRepository.save(characterEntity);
-        return this.CharacterMapper.characterEntity2Dto(entitySaved);
+        return this.CharacterMapper.characterEntity2Dto(entitySaved, false);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class CharacterServiceImp implements CharacterService {
         entity.setImage(characterDto.getImage());
         entity.setAge(characterDto.getAge());
 
-        return CharacterMapper.characterEntity2Dto(CharacterRepository.save(entity));
+        return CharacterMapper.characterEntity2Dto(CharacterRepository.save(entity), false);
     }
 
     @Override
@@ -49,14 +49,14 @@ public class CharacterServiceImp implements CharacterService {
 
     @Override
     public List<CharacterDto> findAll() {
-        List<CharacterEntity> finds = CharacterRepository.findAll();
-        return CharacterMapper.characterEntity2DtoList(finds);
+        List<CharacterEntity> entities = CharacterRepository.findAll();
+        return CharacterMapper.characterEntity2DtoList(entities, true);
     }
 
     @Override
     public CharacterDto findById(Long id) {
-        CharacterEntity finded = CharacterRepository.getReferenceById(id);
-        return CharacterMapper.characterEntity2Dto(finded);
+        CharacterEntity found = CharacterRepository.getReferenceById(id);
+        return CharacterMapper.characterEntity2Dto(found, true);
     }
 
 }

@@ -23,7 +23,7 @@ public class MovieServiceImp implements MovieService {
     public MovieDto save(MovieDto movieDto) {
         MovieEntity entity = MovieMapper.movieDTO2Entity(movieDto);
         MovieEntity movieSaved = this.MovieRepository.save(entity);
-        return MovieMapper.movieEntity2DTO(movieSaved);
+        return MovieMapper.movieEntity2DTO(movieSaved, true);
     }
 
     @Override
