@@ -7,7 +7,9 @@ import com.alkemy.disney.Entity.MovieEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -24,8 +26,8 @@ public class MovieMapper {
         movieEntity.setDate(movieDto.getDate());
         movieEntity.setGenreId(movieDto.getGenre());
         movieEntity.setRate(movieDto.getRate());
-        Set<CharacterEntity> chracters = addCharactersE(movieDto.getCharacters());
-        movieEntity.setCharacters(chracters);
+        Set<CharacterEntity> character = addCharactersE(movieDto.getCharacters());
+        movieEntity.setCharacters(character);
         return movieEntity;
     }
 
@@ -64,6 +66,27 @@ public class MovieMapper {
         Set<MovieDto> dtos = new HashSet<>();
         for (MovieEntity movie: movies){
             dtos.add(MovieMapper.movieEntity2DTO(movie,loadCharacters));
+        }
+        return dtos;
+    }
+
+    public Set<MovieEntity> MovieDTO2entitySet(Set<MovieDto> movies) {
+        Set<MovieEntity> entities = new HashSet<>();
+        for (MovieDto movie: movies){
+            entities.add(MovieMapper.movieDTO2Entity(movie));
+        }
+        return  entities;
+    }
+
+    public MovieDto MovieEntity2DTOSet(MovieEntity save) {
+
+        return null;
+    }
+
+    public List<MovieDto> MovieEntity2DTOList(List<MovieEntity> movies, boolean loadCharacters) {
+        List<MovieDto> dtos = new ArrayList<>();
+        for (MovieEntity movie: movies){
+            dtos.add(MovieMapper.movieEntity2DTO(movie, loadCharacters));
         }
         return dtos;
     }

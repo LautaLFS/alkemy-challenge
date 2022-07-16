@@ -2,9 +2,7 @@ package com.alkemy.disney.Mapper;
 
 import com.alkemy.disney.Dto.CharacterDto;
 import com.alkemy.disney.Entity.CharacterEntity;
-import com.fasterxml.jackson.annotation.JsonKey;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;

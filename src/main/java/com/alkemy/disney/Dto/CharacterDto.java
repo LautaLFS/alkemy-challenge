@@ -13,6 +13,7 @@ public class CharacterDto {
     private String image;
     private long weight;
     private int age;
+    private boolean deleted;
     private Set<MovieDto> movies = new HashSet<>();
 
 

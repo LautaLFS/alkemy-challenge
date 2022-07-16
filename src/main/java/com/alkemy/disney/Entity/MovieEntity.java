@@ -8,12 +8,15 @@ package com.alkemy.disney.Entity;
 import java.util.*;
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Data
+
+@Getter
+@Setter
 public
 class MovieEntity {
     
@@ -37,6 +40,9 @@ class MovieEntity {
     @Column(name = "genre_Id",insertable = false, updatable = false)
     private Long GenreId;
     //todo: manytomany
+    @JoinTable(name = "movies_entity_character",
+            joinColumns = @JoinColumn(name= "movie_entity"),
+            inverseJoinColumns = @JoinColumn(name = "character_entity"))
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<CharacterEntity> characters = new HashSet<>();

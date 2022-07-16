@@ -3,6 +3,7 @@ package com.alkemy.disney.Controller;
 import com.alkemy.disney.Dto.CharacterDto;
 import com.alkemy.disney.Mapper.CharacterMapper;
 import com.alkemy.disney.Service.CharacterService;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ public class CharacterController {
     }
 
     @PutMapping("/{id}")
+
     public ResponseEntity<CharacterDto> update(@RequestBody CharacterDto characterDto, @PathVariable Long id){
 
         CharacterDto updated = CharacterService.update(characterDto, id);

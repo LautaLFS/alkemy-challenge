@@ -8,13 +8,16 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-@Data
+
 @Entity
+@Getter
+@Setter
 @SQLDelete(sql = "UPDATE character_entity SET deleted=true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class CharacterEntity {
@@ -30,6 +33,6 @@ public class CharacterEntity {
     private Boolean deleted = false;
     
     @ManyToMany(mappedBy = "characters" )
-    @JsonIgnore
+
     private Set<MovieEntity> movies = new HashSet<>();
 }
