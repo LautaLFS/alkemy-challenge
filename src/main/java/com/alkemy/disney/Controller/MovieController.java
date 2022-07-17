@@ -41,13 +41,13 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<List<MovieDto>> findAll(){
 
         List<MovieDto> dtos = MovieService.findAll();
 
         return ResponseEntity.status(HttpStatus.OK).body(dtos);
-    }
+    }*/
     @GetMapping("/{id}")
     public ResponseEntity<MovieDto> findById(@PathVariable Long id){
 
@@ -55,6 +55,7 @@ public class MovieController {
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
 
 
 

@@ -44,16 +44,27 @@ public class CharacterController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<List<CharacterDto>> findAll(){
         List<CharacterDto> dtos = CharacterService.findAll();
 
         return ResponseEntity.status(HttpStatus.OK).body(dtos);
-    }
+    }*/
     @GetMapping("/{id}")
     public ResponseEntity<CharacterDto> findById(@PathVariable Long id){
         CharacterDto result = CharacterService.findById(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+    @GetMapping
+    public ResponseEntity<List<CharacterDto>> findByFilters(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String age,
+            @RequestParam(required = false) Set<Long> movieiD){
+
+        List<CharacterDto> characters = CharacterService.findByFilters(name, age, movieiD);
+
+        return ResponseEntity.ok(characters);
+
     }
 }
