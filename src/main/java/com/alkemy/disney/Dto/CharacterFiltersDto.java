@@ -9,12 +9,12 @@ import java.util.Set;
 @Setter
 
 public class CharacterFiltersDto {
-    private Set<Long> movieId;
+    private Set<Long> movies;
     private String name;
     private String age;
 
     public CharacterFiltersDto(Set<Long> movieId, String name, String age) {
-        this.movieId = movieId;
+        this.movies = movieId;
         this.name = name;
         this.age = age;
     }

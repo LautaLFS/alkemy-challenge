@@ -18,12 +18,13 @@ public class GenreController {
 
     @Autowired
     private com.alkemy.disney.Service.GenreService GenreService;
-    
+
     //POST-SAVE
     @PostMapping
-    public ResponseEntity<GenreDto> saveEntity(@RequestBody GenreDto genreDto){
-    
+    public ResponseEntity<GenreDto> saveEntity(@RequestBody GenreDto genreDto) {
+
         GenreDto savedGenre = this.GenreService.save(genreDto);
+
         return ResponseEntity.status(HttpStatus.OK).body(savedGenre);
     }
 }

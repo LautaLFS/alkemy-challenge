@@ -34,7 +34,7 @@ class MovieEntity {
    
     private int rate;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GenreEntity genre;
     
     @Column(name = "genre_Id",insertable = false, updatable = false)

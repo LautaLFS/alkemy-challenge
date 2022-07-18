@@ -19,5 +19,5 @@ public interface CharacterService {
 
     CharacterDto findById(Long id);
 
-    List<CharacterDto> findByFilters(String name, String age, Set<Long> movieiD);
+    List<CharacterDto> findByFilters(String name, String age, Set<Long> movieID);
 }

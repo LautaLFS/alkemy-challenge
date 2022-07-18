@@ -1,9 +1,8 @@
 package com.alkemy.disney.Controller;
 
-import com.alkemy.disney.Dto.CharacterDto;
 import com.alkemy.disney.Dto.MovieDto;
+import com.alkemy.disney.Entity.MovieEntity;
 import com.alkemy.disney.Service.MovieService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +53,14 @@ public class MovieController {
         MovieDto result = MovieService.findById(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+    @GetMapping
+    public ResponseEntity<List<MovieDto>> findByFilters(@RequestParam(required = false) String title,
+                                                           @RequestParam(required = false) String genreId,
+                                                           @RequestParam(required = false) String order){
+
+        List<MovieDto> movies = MovieService.findByFilters(title, genreId, order);
+        return ResponseEntity.status(HttpStatus.OK).body(movies);
     }
 
 

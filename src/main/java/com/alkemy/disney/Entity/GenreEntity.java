@@ -7,9 +7,12 @@ package com.alkemy.disney.Entity;
 import java.util.*;
 import javax.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class GenreEntity {
     
     @Id

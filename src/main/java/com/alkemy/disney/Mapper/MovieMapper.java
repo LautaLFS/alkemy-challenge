@@ -54,14 +54,6 @@ public class MovieMapper {
         return movieDto;
     }
 
-    /*private Set<CharacterDto> addCharactersDTO(Set<CharacterEntity> characters, boolean loadMovies) {
-        Set<CharacterDto> added = new HashSet<>();
-        for (CharacterEntity character : characters) {
-            added.add(CharacterMapper.characterEntity2Dto(character, loadMovies));
-        }
-        return added;
-    }*/
-
     public Set<MovieDto> movieEntiy2DTOSet(Set<MovieEntity> movies, boolean loadCharacters) {
         Set<MovieDto> dtos = new HashSet<>();
         for (MovieEntity movie: movies){

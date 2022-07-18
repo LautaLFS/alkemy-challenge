@@ -1,17 +1,15 @@
 package com.alkemy.disney.Service.Imp;
 
-import com.alkemy.disney.Dto.CharacterDto;
 import com.alkemy.disney.Dto.MovieDto;
-import com.alkemy.disney.Entity.CharacterEntity;
+import com.alkemy.disney.Dto.MovieFiltersDto;
 import com.alkemy.disney.Entity.MovieEntity;
-import com.alkemy.disney.Mapper.CharacterMapper;
 import com.alkemy.disney.Mapper.MovieMapper;
 import com.alkemy.disney.Repository.MovieRepository;
+import com.alkemy.disney.Repository.Specification.MovieSpecification;
 import com.alkemy.disney.Service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,7 +18,8 @@ public class MovieServiceImp implements MovieService {
     private MovieMapper MovieMapper;
     @Autowired
     private MovieRepository MovieRepository;
-
+    @Autowired
+    private MovieSpecification MovieSpecification;
 
     @Override
     public MovieDto save(MovieDto movieDto) {
@@ -61,5 +60,14 @@ public class MovieServiceImp implements MovieService {
     public MovieDto findById(Long id) {
         MovieEntity entity = MovieRepository.getById(id);
         return MovieMapper.movieEntity2DTO(entity, true);
+    }
+
+    @Override
+    public List<MovieDto> findByFilters(String title, String genreId, String order) {
+
+        MovieFiltersDto filtersDto = new MovieFiltersDto(title, genreId, order);
+        List<MovieEntity> entities = MovieRepository.findAll(MovieSpecification.getByFilters(filtersDto));
+
+        return MovieMapper.MovieEntity2DTOList(entities, true);
     }
 }
