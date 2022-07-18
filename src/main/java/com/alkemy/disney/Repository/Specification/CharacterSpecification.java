@@ -37,6 +37,7 @@ public class CharacterSpecification {
                 Expression<String> moviesId = join.get("id");
                 predicates.add(moviesId.in(filtersDto.getMovies()));
             }
+
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }

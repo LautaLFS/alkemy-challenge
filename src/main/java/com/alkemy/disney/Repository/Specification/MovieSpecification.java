@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,11 @@ public class MovieSpecification {
                 predicates.add(
                         criteriaBuilder.equal(root.get("genre"), id)
                 );
+
+            }
+            if (StringUtils.hasLength(filtersDto.getOrder())){
+
+                predicates.add(criteriaBuilder.asc(root.get("title")));
 
             }
 
