@@ -63,6 +63,23 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).body(movies);
     }
 
+    //agregar un personaje a una pelicula
+    @PostMapping("{idMovie}/characters/{idCharacter}")
+    public ResponseEntity<MovieDto> addCharacter(@PathVariable Long idMovie,
+                                                 @PathVariable Long idCharacter){
+        MovieDto addCharacter = MovieService.addCharacter(idMovie, idCharacter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(addCharacter);
+    }
+
+    @DeleteMapping("{idMovie}/characters/{idCharacter}")
+    public ResponseEntity<MovieDto> removeCharacter(@PathVariable Long idMovie,
+                                                 @PathVariable Long idCharacter){
+        MovieDto removeCharacter = MovieService.removeCharacter(idMovie, idCharacter);
+
+        return ResponseEntity.status(HttpStatus.OK).body(removeCharacter);
+    }
+
 
 
 

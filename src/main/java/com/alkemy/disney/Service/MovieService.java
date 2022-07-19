@@ -19,4 +19,8 @@ public interface MovieService {
     MovieDto findById(Long id);
 
     List<MovieDto> findByFilters(String title, String genreId, String order);
+
+    MovieDto addCharacter(Long idMovie, Long idCharacter);
+
+    MovieDto removeCharacter(Long idMovie, Long idCharacter);
 }

@@ -46,6 +46,18 @@ class MovieEntity {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<CharacterEntity> characters = new HashSet<>();
+
+    public void addCharacter(CharacterEntity character){
+        this.characters.add(character);
+        character.getMovies().add(this);
+
+    }
+
+    public void removeCharacter(CharacterEntity character){
+        this.characters.remove(character);
+        character.getMovies().remove(this);
+
+    }
     
     
     

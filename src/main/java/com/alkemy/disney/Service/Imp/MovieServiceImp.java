@@ -2,8 +2,11 @@ package com.alkemy.disney.Service.Imp;
 
 import com.alkemy.disney.Dto.MovieDto;
 import com.alkemy.disney.Dto.MovieFiltersDto;
+import com.alkemy.disney.Entity.CharacterEntity;
 import com.alkemy.disney.Entity.MovieEntity;
+import com.alkemy.disney.Mapper.CharacterMapper;
 import com.alkemy.disney.Mapper.MovieMapper;
+import com.alkemy.disney.Repository.CharacterRepository;
 import com.alkemy.disney.Repository.MovieRepository;
 import com.alkemy.disney.Repository.Specification.MovieSpecification;
 import com.alkemy.disney.Service.MovieService;
@@ -20,6 +23,8 @@ public class MovieServiceImp implements MovieService {
     private MovieRepository MovieRepository;
     @Autowired
     private MovieSpecification MovieSpecification;
+    @Autowired
+    private CharacterRepository CharacterRepository;
 
     @Override
     public MovieDto save(MovieDto movieDto) {
@@ -69,5 +74,26 @@ public class MovieServiceImp implements MovieService {
         List<MovieEntity> entities = MovieRepository.findAll(MovieSpecification.getByFilters(filtersDto));
 
         return MovieMapper.MovieEntity2DTOList(entities, true);
+    }
+
+    @Override
+    public MovieDto addCharacter(Long idMovie, Long idCharacter) {
+
+        MovieEntity movieEntity = MovieRepository.getById(idMovie);
+        CharacterEntity characterEntity = CharacterRepository.getById(idCharacter);
+        movieEntity.addCharacter(characterEntity);
+
+        return MovieMapper.movieEntity2DTO(MovieRepository.save(movieEntity), true);
+
+    }
+
+    @Override
+    public MovieDto removeCharacter(Long idMovie, Long idCharacter) {
+
+        MovieEntity movieEntity = MovieRepository.getById(idMovie);
+        CharacterEntity characterEntity = CharacterRepository.getById(idCharacter);
+        movieEntity.removeCharacter(characterEntity);
+
+        return MovieMapper.movieEntity2DTO(MovieRepository.save(movieEntity), true);
     }
 }
