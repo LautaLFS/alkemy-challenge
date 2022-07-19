@@ -33,8 +33,15 @@ public class MovieSpecification {
 
             }
             if (StringUtils.hasLength(filtersDto.getOrder())){
-
-                predicates.add(criteriaBuilder.asc(root.get("title")));
+            if(filtersDto.getOrder()=="asc") {
+                query.orderBy(
+                        criteriaBuilder.asc(root.get("title"))
+                );
+            }else {
+                query.orderBy(
+                        criteriaBuilder.desc(root.get("title"))
+                );
+            }
 
             }
 
