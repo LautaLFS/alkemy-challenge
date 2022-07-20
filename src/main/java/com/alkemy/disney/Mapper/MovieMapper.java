@@ -15,7 +15,7 @@ import java.util.Set;
 @Controller
 public class MovieMapper {
     @Autowired
-    private CharacterMapper CharacterMapper;
+    private CharacterMapper characterMapper;
     @Autowired
     private MovieMapper MovieMapper;
 
@@ -34,7 +34,7 @@ public class MovieMapper {
     private Set<CharacterEntity> addCharactersE(Set<CharacterDto> characters) {
         Set<CharacterEntity> added = new HashSet<>();
         for (CharacterDto character : characters) {
-            added.add(CharacterMapper.characterDto2Entity(character));
+            added.add(characterMapper.characterDto2Entity(character));
         }
         return added;
     }
@@ -48,7 +48,7 @@ public class MovieMapper {
         movieDto.setGenre(save.getGenreId());
         movieDto.setRate(save.getRate());
         if(loadCharacters) {
-            Set<CharacterDto> characters = CharacterMapper.addCharactersDTO(save.getCharacters(), false);
+            Set<CharacterDto> characters = characterMapper.addCharactersDTO(save.getCharacters(), false);
             movieDto.setCharacters(characters);
         }
         return movieDto;

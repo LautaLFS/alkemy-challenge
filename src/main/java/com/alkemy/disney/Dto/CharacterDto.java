@@ -1,11 +1,14 @@
 package com.alkemy.disney.Dto;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 public class CharacterDto {
     private Long id;
     private String name;

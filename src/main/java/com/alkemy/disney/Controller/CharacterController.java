@@ -1,7 +1,6 @@
 package com.alkemy.disney.Controller;
 
 import com.alkemy.disney.Dto.CharacterDto;
-import com.alkemy.disney.Mapper.CharacterMapper;
 import com.alkemy.disney.Service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,13 +14,13 @@ import java.util.Set;
 @RequestMapping("/character")
 public class CharacterController {
     @Autowired
-    private CharacterService CharacterService;
+    private CharacterService characterService;
 
 
     @PostMapping
     public ResponseEntity<CharacterDto> save(@RequestBody CharacterDto dto) {
 
-            CharacterDto saved = this.CharacterService.save(dto);
+            CharacterDto saved = this.characterService.save(dto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
 
@@ -30,7 +29,7 @@ public class CharacterController {
     @PutMapping("/{id}")
     public ResponseEntity<CharacterDto> update(@RequestBody CharacterDto characterDto, @PathVariable Long id) {
 
-            CharacterDto updated = CharacterService.update(characterDto, id);
+            CharacterDto updated = characterService.update(characterDto, id);
 
         return ResponseEntity.status(HttpStatus.OK).body(updated);
     }
@@ -38,7 +37,7 @@ public class CharacterController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
 
-                CharacterService.delete(id);
+                characterService.delete(id);
 
             return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -48,7 +47,7 @@ public class CharacterController {
                                                             @RequestParam(required = false) String age,
                                                             @RequestParam(required = false) Set<Long> movieId) {
 
-            List<CharacterDto> dtos = CharacterService.findByFilters(name, age, movieId);
+            List<CharacterDto> dtos = characterService.findByFilters(name, age, movieId);
 
         return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }
@@ -56,7 +55,7 @@ public class CharacterController {
     @GetMapping("/{id}")
     public ResponseEntity<CharacterDto> findById(@PathVariable Long id) {
 
-            CharacterDto result = CharacterService.findById(id);
+            CharacterDto result = characterService.findById(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

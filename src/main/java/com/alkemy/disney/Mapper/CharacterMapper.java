@@ -13,7 +13,7 @@ import java.util.Set;
 @Controller
 public class CharacterMapper {
     @Autowired
-    private MovieMapper MovieMapper;
+        private MovieMapper movieMapper;
     public CharacterEntity characterDto2Entity(CharacterDto dto) {
         CharacterEntity entity = new CharacterEntity();
         entity.setImage(dto.getImage());
@@ -27,7 +27,6 @@ public class CharacterMapper {
     }
 
     public CharacterDto characterEntity2Dto(CharacterEntity entitySaved, boolean loadMovies) {
-
         CharacterDto dto = new CharacterDto();
         dto.setId(entitySaved.getId());
         dto.setImage(entitySaved.getImage());
@@ -36,7 +35,7 @@ public class CharacterMapper {
         dto.setHistory(entitySaved.getHistory());
         dto.setWeight(entitySaved.getWeight());
         if (loadMovies) {
-            dto.setMovies(MovieMapper.movieEntiy2DTOSet(entitySaved.getMovies(), false));
+            dto.setMovies(movieMapper.movieEntiy2DTOSet(entitySaved.getMovies(), false));
         }
 
         return dto;

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller;
 public class GenreMapper {
 
     public GenreEntity genreDto2entity(GenreDto genre) {
-        
         GenreEntity genreEntity = new GenreEntity();
         genreEntity.setImage(genre.getImage());
         genreEntity.setName(genre.getName());
@@ -25,7 +24,6 @@ public class GenreMapper {
     }
 
     public GenreDto GenreEntity2dto(GenreEntity entity) {
-        
         GenreDto genreDto = new GenreDto();
         genreDto.setId(entity.getId());
         genreDto.setImage(entity.getImage());

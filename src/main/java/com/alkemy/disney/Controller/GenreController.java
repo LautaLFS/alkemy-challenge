@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.*;
 public class GenreController {
 
     @Autowired
-    private com.alkemy.disney.Service.GenreService GenreService;
+    private GenreService genreService;
 
     //POST-SAVE
     @PostMapping
     public ResponseEntity<GenreDto> saveEntity(@RequestBody GenreDto genreDto) {
 
-        GenreDto savedGenre = this.GenreService.save(genreDto);
+        GenreDto savedGenre = this.genreService.save(genreDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(savedGenre);
     }

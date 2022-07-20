@@ -15,17 +15,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class GenreServiceImp implements GenreService {
     @Autowired
-    private GenreMapper GenreMapper;
+    private GenreMapper genreMapper;
     @Autowired
     private GenreRepository genreRepository;
 
     @Override
     public GenreDto save(GenreDto genre) {
-        
-        GenreEntity entity = this.GenreMapper.genreDto2entity(genre);
+        GenreEntity entity = this.genreMapper.genreDto2entity(genre);
         this.genreRepository.save(entity);
         
-        return this.GenreMapper.GenreEntity2dto(entity);
+        return this.genreMapper.GenreEntity2dto(entity);
     }
     
     

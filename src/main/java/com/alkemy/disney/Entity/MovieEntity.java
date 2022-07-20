@@ -23,15 +23,12 @@ class MovieEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
     private String image;
-    
     private String title;
     
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     @Column(name = "local_date")
     private Date date;
-   
     private int rate;
     
     @ManyToOne(fetch = FetchType.LAZY)
