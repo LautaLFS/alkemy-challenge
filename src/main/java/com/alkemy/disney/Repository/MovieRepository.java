@@ -14,4 +14,5 @@ public interface MovieRepository extends JpaRepository<MovieEntity, Long>, JpaSp
 
     @Override
     List<MovieEntity> findAll(Specification<MovieEntity> spc);
+
 }

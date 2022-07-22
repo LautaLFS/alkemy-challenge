@@ -33,18 +33,14 @@ public class MovieSpecification {
 
             }
             if (StringUtils.hasLength(filtersDto.getOrder())){
-            if(filtersDto.getOrder()=="asc") {
+            if(filtersDto.getOrder().equals("asc")) {
                 query.orderBy(
-                        criteriaBuilder.asc(root.get("title"))
-                );
-            }else {
+                        criteriaBuilder.asc(root.get("title")));
+            } else if (filtersDto.getOrder().equals("desc")) {
                 query.orderBy(
-                        criteriaBuilder.desc(root.get("title"))
-                );
+                        criteriaBuilder.desc(root.get("title")));
             }
-
             }
-
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }

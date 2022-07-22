@@ -4,6 +4,7 @@ import com.alkemy.disney.Dto.CharacterDto;
 import com.alkemy.disney.Dto.MovieDto;
 import com.alkemy.disney.Entity.CharacterEntity;
 import com.alkemy.disney.Entity.MovieEntity;
+import com.alkemy.disney.Repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -18,17 +19,12 @@ public class MovieMapper {
     private CharacterMapper characterMapper;
     @Autowired
     private MovieMapper MovieMapper;
+    @Autowired
+    private GenreRepository genreRepository;
 
     public MovieEntity movieDTO2Entity(MovieDto movieDto) {
         MovieEntity movieEntity = new MovieEntity();
-        movieEntity.setTitle(movieDto.getTitle());
-        movieEntity.setImage(movieDto.getImage());
-        movieEntity.setDate(movieDto.getDate());
-        movieEntity.setGenreId(movieDto.getGenre());
-        movieEntity.setRate(movieDto.getRate());
-        Set<CharacterEntity> character = addCharactersE(movieDto.getCharacters());
-        movieEntity.setCharacters(character);
-        return movieEntity;
+        return loadEntity(movieEntity, movieDto);
     }
 
     private Set<CharacterEntity> addCharactersE(Set<CharacterDto> characters) {
@@ -54,7 +50,7 @@ public class MovieMapper {
         return movieDto;
     }
 
-    public Set<MovieDto> movieEntiy2DTOSet(Set<MovieEntity> movies, boolean loadCharacters) {
+    public Set<MovieDto> movieEntity2DTOSet(Set<MovieEntity> movies, boolean loadCharacters) {
         Set<MovieDto> dtos = new HashSet<>();
         for (MovieEntity movie: movies){
             dtos.add(MovieMapper.movieEntity2DTO(movie,loadCharacters));
@@ -81,6 +77,18 @@ public class MovieMapper {
             dtos.add(MovieMapper.movieEntity2DTO(movie, loadCharacters));
         }
         return dtos;
+    }
+
+    public MovieEntity loadEntity(MovieEntity entity, MovieDto movieDto) {
+        entity.setTitle(movieDto.getTitle());
+        entity.setImage(movieDto.getImage());
+        entity.setDate(movieDto.getDate());
+        entity.setGenre(genreRepository.findById(movieDto.getGenre()).get());
+        entity.setGenreId(movieDto.getGenre());
+        entity.setRate(movieDto.getRate());
+        Set<CharacterEntity> character = addCharactersE(movieDto.getCharacters());
+        entity.setCharacters(character);
+        return entity;
     }
 }
 

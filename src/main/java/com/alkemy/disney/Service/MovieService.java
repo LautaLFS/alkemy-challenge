@@ -14,8 +14,6 @@ public interface MovieService {
 
     void delete(Long id);
 
-    List<MovieDto> findAll();
-
     MovieDto findById(Long id);
 
     List<MovieDto> findByFilters(String title, String genreId, String order);

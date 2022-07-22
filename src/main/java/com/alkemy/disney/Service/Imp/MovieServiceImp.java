@@ -9,6 +9,7 @@ import com.alkemy.disney.Repository.CharacterRepository;
 import com.alkemy.disney.Repository.MovieRepository;
 import com.alkemy.disney.Repository.Specification.MovieSpecification;
 import com.alkemy.disney.Service.MovieService;
+import com.alkemy.disney.exception.ParamNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,52 +35,35 @@ public class MovieServiceImp implements MovieService {
 
     @Override
     public MovieDto update(MovieDto movieDto, Long id) {
-        MovieEntity entity = movieRepository.getById(id);
-
-        entity.setImage(movieDto.getImage());
-        entity.setGenreId(movieDto.getGenre());
-        entity.setDate(movieDto.getDate());
-        entity.setTitle(movieDto.getTitle());
-        entity.setRate(movieDto.getRate());
-
-        return movieMapper.movieEntity2DTO(movieRepository.save(entity), true);
+        MovieEntity entity = movieRepository.findById(id).orElseThrow(
+                ()-> new ParamNotFound("id not found"));
+        MovieEntity update = movieMapper.loadEntity(entity, movieDto);
+        return movieMapper.movieEntity2DTO(movieRepository.save(update), true);
     }
-
     @Override
     public void delete(Long id) {
-        MovieEntity entity = movieRepository.getById(id);
+        MovieEntity entity = movieRepository.findById(id).orElseThrow(
+                ()->new ParamNotFound("id not found"));
         movieRepository.delete(entity);
-
     }
-
-    @Override
-    public List<MovieDto> findAll() {
-        List<MovieEntity> movies = movieRepository.findAll();
-        return movieMapper.MovieEntity2DTOList(movies, true);
-    }
-
     @Override
     public MovieDto findById(Long id) {
-        MovieEntity entity = movieRepository.getById(id);
+        MovieEntity entity = movieRepository.findById(id).orElseThrow(
+                ()-> new ParamNotFound("id not found"));
         return movieMapper.movieEntity2DTO(entity, true);
     }
-
     @Override
     public List<MovieDto> findByFilters(String title, String genreId, String order) {
         MovieFiltersDto filtersDto = new MovieFiltersDto(title, genreId, order);
         List<MovieEntity> entities = movieRepository.findAll(movieSpecification.getByFilters(filtersDto));
-
         return movieMapper.MovieEntity2DTOList(entities, true);
     }
-
     @Override
     public MovieDto addCharacter(Long idMovie, Long idCharacter) {
         MovieEntity movieEntity = movieRepository.getById(idMovie);
         CharacterEntity characterEntity = characterRepository.getById(idCharacter);
         movieEntity.addCharacter(characterEntity);
-
         return movieMapper.movieEntity2DTO(movieRepository.save(movieEntity), true);
-
     }
 
     @Override
@@ -87,7 +71,6 @@ public class MovieServiceImp implements MovieService {
         MovieEntity movieEntity = movieRepository.getById(idMovie);
         CharacterEntity characterEntity = characterRepository.getById(idCharacter);
         movieEntity.removeCharacter(characterEntity);
-
         return movieMapper.movieEntity2DTO(movieRepository.save(movieEntity), true);
     }
 }

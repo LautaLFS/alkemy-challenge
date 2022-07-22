@@ -7,26 +7,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/movies")
 @RestController
 public class MovieController {
-
     @Autowired
     private MovieService movieService;
 
     @PostMapping
-    public ResponseEntity<MovieDto> save(@RequestBody MovieDto movieDto){
+    public ResponseEntity<MovieDto> save(@Valid @RequestBody MovieDto movieDto){
         MovieDto saved = movieService.save(movieDto);
-
         return ResponseEntity.status(HttpStatus.OK).body(saved);
-
     }
     @PutMapping("/{id}")
-    public ResponseEntity<MovieDto> update(@RequestBody MovieDto characterDto, @PathVariable Long id){
+    public ResponseEntity<MovieDto> update(@Valid @RequestBody MovieDto characterDto,
+                                           @PathVariable Long id){
         MovieDto updated = movieService.update(characterDto, id);
-
         return ResponseEntity.status(HttpStatus.OK).body(updated);
     }
     @DeleteMapping("/{id}")
