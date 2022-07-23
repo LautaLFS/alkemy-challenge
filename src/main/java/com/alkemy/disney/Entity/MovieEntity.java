@@ -11,12 +11,16 @@ import javax.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE character_entity SET deleted=true WHERE id = ?")
+@Where(clause = "deleted = false")
 public
 class MovieEntity {
     
@@ -30,6 +34,7 @@ class MovieEntity {
     @Column(name = "local_date")
     private Date date;
     private int rate;
+    private Boolean deleted = Boolean.FALSE;
     
     @ManyToOne(fetch = FetchType.LAZY)
     private GenreEntity genre;

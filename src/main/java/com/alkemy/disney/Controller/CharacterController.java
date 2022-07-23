@@ -1,13 +1,12 @@
 package com.alkemy.disney.Controller;
 
+import com.alkemy.disney.Dto.CharacterBasicDto;
 import com.alkemy.disney.Dto.CharacterDto;
 import com.alkemy.disney.Service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 
 import javax.validation.Valid;
 import java.util.List;
@@ -36,10 +35,10 @@ public class CharacterController {
          return ResponseEntity.status(HttpStatus.OK).build();
     }
     @GetMapping
-    public ResponseEntity<List<CharacterDto>> findByFilters(@RequestParam(required = false) String name,
-                                                            @RequestParam(required = false) String age,
-                                                            @RequestParam(required = false) Set<Long> movieId) {
-        List<CharacterDto> dtos = characterService.findByFilters(name, age, movieId);
+    public ResponseEntity<List<CharacterBasicDto>> findByFilters(@RequestParam(required = false) String name,
+                                                                 @RequestParam(required = false) String age,
+                                                                 @RequestParam(required = false) Set<Long> movieId) {
+        List<CharacterBasicDto> dtos = characterService.findByFilters(name, age, movieId);
         return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }
 

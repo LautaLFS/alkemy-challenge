@@ -1,6 +1,7 @@
 package com.alkemy.disney.Mapper;
 
 import com.alkemy.disney.Dto.CharacterDto;
+import com.alkemy.disney.Dto.MovieBasicDto;
 import com.alkemy.disney.Dto.MovieDto;
 import com.alkemy.disney.Entity.CharacterEntity;
 import com.alkemy.disney.Entity.MovieEntity;
@@ -37,6 +38,10 @@ public class MovieMapper {
 
     public MovieDto movieEntity2DTO(MovieEntity save, boolean loadCharacters) {
         MovieDto movieDto = new MovieDto();
+        return loadDto(save, movieDto, loadCharacters);
+    }
+
+    private MovieDto loadDto(MovieEntity save, MovieDto movieDto, boolean loadCharacters) {
         movieDto.setId(save.getId());
         movieDto.setTitle(save.getTitle());
         movieDto.setImage(save.getImage());
@@ -89,6 +94,22 @@ public class MovieMapper {
         Set<CharacterEntity> character = addCharactersE(movieDto.getCharacters());
         entity.setCharacters(character);
         return entity;
+    }
+
+    public List<MovieBasicDto> MovieBasicEntity2DTOList(List<MovieEntity> entities, boolean loadCharacters) {
+        List<MovieBasicDto> dtos = new ArrayList<>();
+        for (MovieEntity entity : entities ){
+            dtos.add(movieBasicEntity2Dto(entity));
+        }
+        return dtos;
+    }
+
+    private MovieBasicDto movieBasicEntity2Dto(MovieEntity entity) {
+        MovieBasicDto movieBasicDto = new MovieBasicDto();
+        movieBasicDto.setImage(entity.getImage());
+        movieBasicDto.setTitle(entity.getTitle());
+        movieBasicDto.setDate(entity.getDate());
+        return movieBasicDto;
     }
 }
 

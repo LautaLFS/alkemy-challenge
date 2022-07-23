@@ -1,7 +1,7 @@
 package com.alkemy.disney.Service;
 
+import com.alkemy.disney.Dto.MovieBasicDto;
 import com.alkemy.disney.Dto.MovieDto;
-import com.alkemy.disney.Entity.MovieEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public interface MovieService {
 
     MovieDto findById(Long id);
 
-    List<MovieDto> findByFilters(String title, String genreId, String order);
+    List<MovieBasicDto> findByFilters(String title, String genreId, String order);
 
     MovieDto addCharacter(Long idMovie, Long idCharacter);
 

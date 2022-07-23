@@ -1,5 +1,6 @@
 package com.alkemy.disney.Service.Imp;
 
+import com.alkemy.disney.Dto.MovieBasicDto;
 import com.alkemy.disney.Dto.MovieDto;
 import com.alkemy.disney.Dto.MovieFiltersDto;
 import com.alkemy.disney.Entity.CharacterEntity;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieServiceImp implements MovieService {
@@ -53,23 +55,28 @@ public class MovieServiceImp implements MovieService {
         return movieMapper.movieEntity2DTO(entity, true);
     }
     @Override
-    public List<MovieDto> findByFilters(String title, String genreId, String order) {
+    public List<MovieBasicDto> findByFilters(String title, String genreId, String order) {
         MovieFiltersDto filtersDto = new MovieFiltersDto(title, genreId, order);
         List<MovieEntity> entities = movieRepository.findAll(movieSpecification.getByFilters(filtersDto));
-        return movieMapper.MovieEntity2DTOList(entities, true);
+        return movieMapper.MovieBasicEntity2DTOList(entities, false);
     }
     @Override
     public MovieDto addCharacter(Long idMovie, Long idCharacter) {
-        MovieEntity movieEntity = movieRepository.getById(idMovie);
-        CharacterEntity characterEntity = characterRepository.getById(idCharacter);
+        MovieEntity movieEntity = movieRepository.findById(idMovie).orElseThrow(
+                ()-> new ParamNotFound("id not found"));
+        CharacterEntity characterEntity = characterRepository.findById(idCharacter).orElseThrow(
+                ()-> new ParamNotFound("Id not found")
+        );
         movieEntity.addCharacter(characterEntity);
         return movieMapper.movieEntity2DTO(movieRepository.save(movieEntity), true);
     }
 
     @Override
     public MovieDto removeCharacter(Long idMovie, Long idCharacter) {
-        MovieEntity movieEntity = movieRepository.getById(idMovie);
-        CharacterEntity characterEntity = characterRepository.getById(idCharacter);
+        MovieEntity movieEntity = movieRepository.findById(idMovie).orElseThrow(
+                ()-> new ParamNotFound("id not found"));
+        CharacterEntity characterEntity = characterRepository.findById(idCharacter).orElseThrow(
+                ()-> new ParamNotFound("Id not found"));
         movieEntity.removeCharacter(characterEntity);
         return movieMapper.movieEntity2DTO(movieRepository.save(movieEntity), true);
     }

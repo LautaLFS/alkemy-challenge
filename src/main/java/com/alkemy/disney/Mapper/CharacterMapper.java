@@ -1,5 +1,6 @@
 package com.alkemy.disney.Mapper;
 
+import com.alkemy.disney.Dto.CharacterBasicDto;
 import com.alkemy.disney.Dto.CharacterDto;
 import com.alkemy.disney.Entity.CharacterEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ public class CharacterMapper {
         private MovieMapper movieMapper;
     public CharacterEntity characterDto2Entity(CharacterDto dto) {
         CharacterEntity entity = new CharacterEntity();
-        loadEntity(entity, dto);
-        return entity;
+        return loadEntity(entity, dto);
+
     }
     public CharacterDto characterEntity2Dto(CharacterEntity entitySaved, boolean loadMovies) {
         CharacterDto dto = new CharacterDto();
@@ -31,6 +32,16 @@ public class CharacterMapper {
             dto.setMovies(movieMapper.movieEntity2DTOSet(entitySaved.getMovies(), false));
         }
         return dto;
+    }
+    public CharacterBasicDto characterBasicEntity2Dto(CharacterEntity entity){
+        CharacterBasicDto characterBasicDto = new CharacterBasicDto();
+        return loadBasicDto(entity, characterBasicDto);
+    }
+
+    private CharacterBasicDto loadBasicDto(CharacterEntity entity, CharacterBasicDto characterBasicDto) {
+        characterBasicDto.setImage(entity.getImage());
+        characterBasicDto.setName(entity.getName());
+        return characterBasicDto;
     }
 
     public List<CharacterDto> characterEntity2DtoList(List<CharacterEntity> entities, boolean loadMovies) {
@@ -56,4 +67,11 @@ public class CharacterMapper {
         return entity;
     }
 
+    public List<CharacterBasicDto> characterBasicEntity2DtoList(List<CharacterEntity> entities, boolean loadMovies) {
+        List<CharacterBasicDto> basicDtos = new ArrayList<>();
+        for (CharacterEntity entity: entities){
+            basicDtos.add(characterBasicEntity2Dto(entity));
+        }
+        return basicDtos;
+    }
 }

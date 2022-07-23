@@ -1,6 +1,5 @@
 package com.alkemy.disney.Dto;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
