@@ -1,4 +1,4 @@
-package io.javabrains.springsecurityjwt.util;
+package com.alkemy.disney.Securiry.Service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtUtils {
+public class JwtUtil {
 
     private String SECRET_KEY = "secret";
 

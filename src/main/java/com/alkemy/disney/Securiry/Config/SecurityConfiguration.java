@@ -1,5 +1,7 @@
 package com.alkemy.disney.Securiry.Config;
 
+import com.alkemy.disney.Securiry.Filter.JwtRequestFilter;
+import com.alkemy.disney.Securiry.Service.UserDetailsCustomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsCustomerService userDetailsCustomerService;
+    private UserDetailsCustomService userDetailsCustomerService;
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
@@ -42,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().exceptionHandling()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
 
