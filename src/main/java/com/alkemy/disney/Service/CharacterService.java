@@ -1,5 +1,6 @@
 package com.alkemy.disney.Service;
 
+import com.alkemy.disney.Dto.CharacterBasicDto;
 import com.alkemy.disney.Dto.CharacterDto;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +20,5 @@ public interface CharacterService {
 
     CharacterDto findById(Long id);
 
-    List<CharacterDto> findByFilters(String name, String age, Set<Long> movieID);
+    List<CharacterBasicDto> findByFilters(String name, String age, Set<Long> movieID);
 }

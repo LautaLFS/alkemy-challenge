@@ -1,5 +1,6 @@
 package com.alkemy.disney.Service.Imp;
 
+import com.alkemy.disney.Dto.CharacterBasicDto;
 import com.alkemy.disney.Dto.CharacterDto;
 import com.alkemy.disney.Dto.CharacterFiltersDto;
 import com.alkemy.disney.Dto.MovieDto;
@@ -40,15 +41,7 @@ public class CharacterServiceImp implements CharacterService {
     @Override
     public CharacterDto update(CharacterDto characterDto, Long id) {
 
-        CharacterEntity entity = CharacterRepository.getById(id);
-
-        entity.setWeight(characterDto.getWeight());
-        entity.setName(characterDto.getName());
-        entity.setHistory(characterDto.getHistory());
-        entity.setImage(characterDto.getImage());
-        entity.setAge(characterDto.getAge());
-
-
+        CharacterEntity entity = CharacterRepository.findById(id).orElseThrow();
         return CharacterMapper.characterEntity2Dto(CharacterRepository.save(entity), true);
     }
 
@@ -71,12 +64,10 @@ public class CharacterServiceImp implements CharacterService {
     }
 
     @Override
-    public List<CharacterDto> findByFilters(String name, String age, Set<Long> movieId) {
-
+    public List<CharacterBasicDto> findByFilters(String name, String age, Set<Long> movieId) {
         CharacterFiltersDto filtersDto = new CharacterFiltersDto(movieId, name, age);
         List<CharacterEntity> entities = CharacterRepository.findAll(CharacterSpecification.getByFilters(filtersDto));
-
-        return CharacterMapper.characterEntity2DtoList(entities, true);
+        return CharacterMapper.characterBasicEntity2DtoList(entities);
     }
 
 }

@@ -1,9 +1,12 @@
 package com.alkemy.disney.Mapper;
 
 import com.alkemy.disney.Dto.CharacterDto;
+import com.alkemy.disney.Dto.MovieBasicDto;
 import com.alkemy.disney.Dto.MovieDto;
 import com.alkemy.disney.Entity.CharacterEntity;
 import com.alkemy.disney.Entity.MovieEntity;
+import com.alkemy.disney.Exception.ParamNotFound;
+import com.alkemy.disney.Repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -18,17 +21,12 @@ public class MovieMapper {
     private CharacterMapper CharacterMapper;
     @Autowired
     private MovieMapper MovieMapper;
+    @Autowired
+    private GenreRepository genreRepository;
 
     public MovieEntity movieDTO2Entity(MovieDto movieDto) {
         MovieEntity movieEntity = new MovieEntity();
-        movieEntity.setTitle(movieDto.getTitle());
-        movieEntity.setImage(movieDto.getImage());
-        movieEntity.setDate(movieDto.getDate());
-        movieEntity.setGenreId(movieDto.getGenre());
-        movieEntity.setRate(movieDto.getRate());
-        Set<CharacterEntity> character = addCharactersE(movieDto.getCharacters());
-        movieEntity.setCharacters(character);
-        return movieEntity;
+        return loadEntity(movieEntity, movieDto);
     }
 
     private Set<CharacterEntity> addCharactersE(Set<CharacterDto> characters) {
@@ -81,6 +79,39 @@ public class MovieMapper {
             dtos.add(MovieMapper.movieEntity2DTO(movie, loadCharacters));
         }
         return dtos;
+    }
+
+    public List<MovieBasicDto> MovieBasicEntity2DTOList(List<MovieEntity> entities) {
+        List<MovieBasicDto> movieBasicDtos = new ArrayList<>();
+        for (MovieEntity entity : entities){
+            movieBasicDtos.add(movieBasicEntity2Dto(entity));
+        }
+        return movieBasicDtos;
+    }
+
+    private MovieBasicDto movieBasicEntity2Dto(MovieEntity entity) {
+        MovieBasicDto movieBasicDto = new MovieBasicDto();
+        movieBasicDto.setDate(entity.getDate());
+        movieBasicDto.setImage(entity.getImage());
+        movieBasicDto.setTitle(entity.getTitle());
+        return movieBasicDto;
+    }
+
+    public MovieEntity updateMovie(MovieEntity movieEntity, MovieDto movieDto) {
+        return loadEntity(movieEntity, movieDto);
+    }
+
+    private MovieEntity loadEntity(MovieEntity movieEntity, MovieDto movieDto) {
+        movieEntity.setTitle(movieDto.getTitle());
+        movieEntity.setImage(movieDto.getImage());
+        movieEntity.setDate(movieDto.getDate());
+        movieEntity.setGenre(genreRepository.findById(movieDto.getGenre()).orElseThrow(
+                ()-> new ParamNotFound("wrong id")));
+        movieEntity.setGenreId(movieDto.getGenre());
+        movieEntity.setRate(movieDto.getRate());
+        Set<CharacterEntity> character = addCharactersE(movieDto.getCharacters());
+        movieEntity.setCharacters(character);
+        return movieEntity;
     }
 }
 

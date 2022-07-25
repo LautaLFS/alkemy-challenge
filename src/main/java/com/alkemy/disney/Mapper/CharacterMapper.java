@@ -1,5 +1,6 @@
 package com.alkemy.disney.Mapper;
 
+import com.alkemy.disney.Dto.CharacterBasicDto;
 import com.alkemy.disney.Dto.CharacterDto;
 import com.alkemy.disney.Entity.CharacterEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +57,20 @@ public class CharacterMapper {
             added.add(characterEntity2Dto(character, loadMovies));
         }
         return added;
+    }
+
+    public List<CharacterBasicDto> characterBasicEntity2DtoList(List<CharacterEntity> entities) {
+        List<CharacterBasicDto> characterBasicDtos = new ArrayList<>();
+        for(CharacterEntity entity: entities){
+            characterBasicDtos.add(CharacterBasicEntity2Dto(entity));
+        }
+        return characterBasicDtos;
+    }
+
+    private CharacterBasicDto CharacterBasicEntity2Dto(CharacterEntity entity) {
+        CharacterBasicDto characterBasicDto = new CharacterBasicDto();
+        characterBasicDto.setImage(entity.getImage());
+        characterBasicDto.setName(entity.getName());
+        return characterBasicDto;
     }
 }
