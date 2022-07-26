@@ -1,9 +1,9 @@
 package com.alkemy.disney.Dto;
 
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,10 +11,10 @@ import java.util.Set;
 @Setter
 public class CharacterDto {
     private Long id;
-    @NonNull
+    @NotNull
     private String name;
     private String history;
-    @NonNull
+    @NotNull
     private String image;
     private long weight;
     private int age;
