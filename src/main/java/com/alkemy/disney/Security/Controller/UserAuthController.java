@@ -44,7 +44,7 @@ public class UserAuthController {
         try {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
-                            authenticationRequest.getPassword())
+                            authenticationRequest.getPassword(), null)
             );
             userDetails = (UserDetails)auth.getPrincipal();
         }catch (BadCredentialsException e){
