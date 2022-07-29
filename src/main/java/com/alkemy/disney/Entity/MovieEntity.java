@@ -2,16 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.alkemyChallenge.disneyAPI.Entity;
+package com.alkemy.disney.Entity;
 
 
 import java.util.*;
 import javax.persistence.*;
+
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Data
+
+@Getter
+@Setter
+public
 class MovieEntity {
     
     @Id
@@ -28,14 +34,30 @@ class MovieEntity {
    
     private int rate;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GenreEntity genre;
     
     @Column(name = "genre_Id",insertable = false, updatable = false)
     private Long GenreId;
     //todo: manytomany
-    @ManyToMany
+    @JoinTable(name = "movies_entity_character",
+            joinColumns = @JoinColumn(name= "movie_entity"),
+            inverseJoinColumns = @JoinColumn(name = "character_entity"))
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<CharacterEntity> characters = new HashSet<>();
+
+    public void addCharacter(CharacterEntity character){
+        this.characters.add(character);
+        character.getMovies().add(this);
+
+    }
+
+    public void removeCharacter(CharacterEntity character){
+        this.characters.remove(character);
+        character.getMovies().remove(this);
+
+    }
     
     
     
